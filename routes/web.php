@@ -30,6 +30,7 @@ Route::prefix('/')->group(function () {
         Route::get('/student/verify/{token}', 'verifyStudent')->name('frontend.student.verify');
         Route::get('/', 'index')->name('frontend.student.index')->middleware('student');
         Route::get('/show/{notification}', 'show')->name('frontend.student.show')->middleware('student');
+        Route::get('/tags', 'tags')->name('frontend.student.tags')->middleware('student');
         Route::get('/important', 'important')->name('frontend.student.important')->middleware('student');
     });
 });

@@ -83,11 +83,17 @@ class FrontendController extends Controller
         return view('frontend.important', compact('notifications', 'tags'));
     }
 
+    public function tags() {
+
+        $tags = Tag::where('status', 1)->orderBy('name', 'asc')->get();
+
+        return view('frontend.tags', compact('tags'));
+    }
 
     public function show(Notification $notification) {
         $tagIds = json_decode($notification->tags);
         $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-    
+
         return view('frontend.show', compact('notification'));
     }
 

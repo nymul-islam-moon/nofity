@@ -7,10 +7,10 @@
         <div class="navbar-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.student.important') }}"><i class="fa-solid fa-star"></i></a>
+                    <a class="nav-link" href="#"><i class="fa-solid fa-star"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.student.tags') }}"><i class="fa-solid fa-tag"></i></a>
+                    <a class="nav-link" href="#"><i class="fa-solid fa-tag"></i></a>
                 </li>
             </ul>
         </div>
@@ -36,17 +36,9 @@
 
 <div class="container search-section">
     <div class="row justify-content-center px-2">
-        <form action="{{ route('frontend.student.index') }}" method="GET" class="d-flex w-100">
-            <div class="col-md-6 mb-2 mb-md-0">
+        <form action="" method="GET" class="d-flex w-100">
+            <div class="col-md-10 mb-2 mb-md-0">
                 <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request('search') }}">
-            </div>
-            <div class="col-md-4 mb-2 mb-md-0">
-                <select class="form-control" name="tag">
-                    <option value="0"> -- Choose Tag -- </option>
-                    @foreach ($tags as $tag)
-                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                    @endforeach
-                </select>
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary w-100" type="submit">Search</button>
@@ -57,38 +49,17 @@
 
 
 <div class="container mt-4">
-    @if($notifications->count())
-        <div class="row">
-            @foreach ($notifications as $notification)
-                <div class="col-md-6">
-                    <div class="post-card card mb-4">
-                        <div class="card-body">
-                            <h3 class="card-title text-center">
-                                <a href="{{ route('frontend.student.show', $notification->id) }}" class="text-decoration-none paper">{{ $notification->title }}</a>
-                            </h3>
-                            <p class="card-text paper">{{ $notification->short_description }}</p>
-                            <div class="tags">
-                                @if(!empty($notification->tagNames))
-                                    @foreach ($notification->tagNames as $tagName)
-                                        <span class="badge badge-label bg-info">{{ $tagName }}</span>
-                                    @endforeach
-                                @else
-                                    <span class="badge badge-label bg-secondary">N/A</span>
-                                @endif
-                            </div>
-                            <p class="publish-date text-right">Published on: {{ $notification->created_at->format('d-m-Y') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        <div class="row justify-content-center mt-4">
-            {{ $notifications->links() }}
-        </div>
-    @else
-        <p>No notifications found.</p>
-    @endif
+    <h2 class="mb-4">Tags</h2>
+    <div class="tags-container mb-4">
+        @foreach ($tags as $tag)
+            <div class="tag-item btn-group mt-3 mb-3" role="group" aria-label="{{ $tag->name }}">
+                <button type="button" class="btn btn-primary me-2">{{ $tag->name }}</button>
+                <button type="button" class="btn btn-outline-success active-toggle">+</button>
+            </div>
+        @endforeach
+    </div>
 </div>
+
 
 
 @endsection
@@ -120,6 +91,18 @@
                 }
             })
 
+        });
+
+        $(document).on('click', '.active-toggle', function(e){
+            e.preventDefault();
+
+            if ($(this).text() === '+') {
+                $(this).text('-');
+                $(this).removeClass('btn-outline-success').addClass('btn-outline-danger');
+            } else {
+                $(this).text('+');
+                $(this).removeClass('btn-outline-danger').addClass('btn-outline-success');
+            }
         });
     })
 </script>
