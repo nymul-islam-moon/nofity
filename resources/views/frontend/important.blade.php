@@ -56,7 +56,7 @@
                     <div class="post-card card mb-4">
                         <div class="card-body">
                             <h3 class="card-title text-center">
-                                <a href="show.html" class="text-decoration-none paper">{{ $notification->title }}</a>
+                                <a href="{{ route('frontend.student.show', $notification->id) }}" class="text-decoration-none paper">{{ $notification->title }}</a>
                             </h3>
                             <p class="card-text paper">{{ $notification->short_description }}</p>
                             <div class="tags">
