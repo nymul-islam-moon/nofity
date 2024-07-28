@@ -29,6 +29,7 @@ Route::prefix('/')->group(function () {
         Route::get('/registration', 'registration')->name('frontend.student.registration');
         Route::get('/student/verify/{token}', 'verifyStudent')->name('frontend.student.verify');
         Route::get('/', 'index')->name('frontend.student.index')->middleware('student');
+        Route::get('/show/{notification}', 'show')->name('frontend.student.show')->middleware('student');
         Route::get('/important', 'important')->name('frontend.student.important')->middleware('student');
     });
 });

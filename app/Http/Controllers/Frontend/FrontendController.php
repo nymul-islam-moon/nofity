@@ -84,6 +84,12 @@ class FrontendController extends Controller
     }
 
 
+    public function show(Notification $notification) {
+        $tagIds = json_decode($notification->tags);
+        $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
+    
+        return view('frontend.show', compact('notification'));
+    }
 
 
     public function login() {
