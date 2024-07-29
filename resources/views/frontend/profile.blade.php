@@ -18,8 +18,8 @@
             <!-- Show Profile Content -->
             <div class="text-center mt-3">
                 <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Image">
-                <h3>John Doe</h3>
-                <p>Email: john.doe@example.com</p>
+                <h3>{{ $student->first_name }} {{ $student->last_name }}</h3>
+                <p>Email: {{ $student->email }}</p>
             </div>
         </div>
         <div class="tab-pane fade" id="update" role="tabpanel" aria-labelledby="update-tab">
@@ -28,21 +28,21 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+                        <input type="text" class="form-control" id="firstName" value="{{ $student->first_name }}" placeholder="Enter first name">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                        <input type="text" class="form-control" id="lastName" value="{{ $student->last_name }}" placeholder="Enter last name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">E-mail</label>
-                        <input type="text" class="form-control" id="email" placeholder="Enter E-main">
+                        <input type="text" class="form-control" id="email" value="{{ $student->email }}" placeholder="Enter E-main">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone">Phone</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number">
+                        <input type="text" class="form-control" id="phone" value="{{ $student->phone }}" placeholder="Enter Phone Number">
                     </div>
                 </div>
                 <div class="form-group">

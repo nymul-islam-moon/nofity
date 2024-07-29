@@ -122,7 +122,9 @@ class FrontendController extends Controller
 
 
     public function profile() {
-        return view('frontend.profile');
+        $studentId = auth('student')->id();
+        $student = Student::where('id', $studentId)->first();
+        return view('frontend.profile', compact('student'));
     }
 
 
