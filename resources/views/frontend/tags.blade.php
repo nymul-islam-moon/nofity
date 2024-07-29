@@ -87,11 +87,11 @@
                 url: url,
                 type: "POST",
                 data: {
-                    _token: "{{ csrf_token() }}" // Include CSRF token for Laravel
+                    _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Update button text, class, and URL based on the new state
+                        
                         if ($button.text().trim() === '+') {
                             $button.text('-');
                             $button.removeClass('btn-outline-success').addClass('btn-outline-danger');
