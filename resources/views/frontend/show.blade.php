@@ -1,30 +1,8 @@
 @extends('layouts.frontend')
 
 @section('frontend_content')
-<nav class="navbar navbar-expand-lg navbar-custom bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">Notify</a>
-        <div class="navbar-center">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.student.important') }}"><i class="fa-solid fa-star"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa-solid fa-tag"></i></a>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="profile.html">Profile</a>
-                <a class="dropdown-item" href="{{ route('frontend.student.logout') }}" id="frontend_logout">{{ __('Logout') }}</a>
-            </div>
-        </div>
-    </div>
-</nav>
+
+@include('layouts.frontend.navbar')
 
 
 
