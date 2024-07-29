@@ -4,15 +4,6 @@
 
 @include('layouts.frontend.navbar')
 
-
-
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-
 <div class="container mt-4">
     <div class="col-md-12">
         <div class="card mb-4">

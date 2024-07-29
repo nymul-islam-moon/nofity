@@ -4,12 +4,6 @@
 
 @include('layouts.frontend.navbar')
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
 <div class="container search-section">
     <div class="row justify-content-center px-2">
         <form action="{{ route('frontend.student.index') }}" method="GET" class="d-flex w-100">

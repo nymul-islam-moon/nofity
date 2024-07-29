@@ -52,4 +52,12 @@ class Student extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the favorite tags for the student.
+     */
+    public function favoriteTags()
+    {
+        return $this->hasMany(FavoriteTags::class);
+    }
+
 }

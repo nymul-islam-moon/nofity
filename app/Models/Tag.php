@@ -16,4 +16,11 @@ class Tag extends Model
 
     protected $fillable = [ 'name', 'status' ];
 
+   /**
+     * Get the favorite tags for the tag.
+     */
+    public function favoriteTags()
+    {
+        return $this->hasMany(FavoriteTags::class);
+    }
 }

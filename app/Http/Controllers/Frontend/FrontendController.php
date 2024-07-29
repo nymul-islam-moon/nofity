@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Mail\StudentVerificationMail;
+use App\Models\FavoriteTags;
 use App\Models\Notification;
 use App\Models\Student;
 use App\Models\Tag;
@@ -83,12 +84,61 @@ class FrontendController extends Controller
         return view('frontend.important', compact('notifications', 'tags'));
     }
 
-    public function tags() {
+    public function tags()
+    {
+        $studentId = auth('student')->id(); // Assuming 'student' guard is used
 
-        $tags = Tag::where('status', 1)->orderBy('name', 'asc')->get();
+        // Fetch all tags
+        $tags = Tag::where('status', 1)
+            ->orderBy('name', 'asc')
+            ->get();
 
-        return view('frontend.tags', compact('tags'));
+        // Fetch favorite tag IDs for the current student
+        $favoriteTagIds = FavoriteTags::where('student_id', $studentId)
+            ->pluck('tag_id')
+            ->toArray();
+
+        return view('frontend.tags', compact('tags', 'favoriteTagIds'));
     }
+
+
+    public function storeFavoriteTag($favoriteTagId, Request $request)
+    {
+        $studentId = auth('student')->id(); // Get the authenticated student's ID
+        $student = Student::find($studentId);
+
+        $formData = [
+            'student_id' => $student->id,
+            'tag_id'    => $favoriteTagId,
+        ];
+
+        $favoriteTag = new FavoriteTags();
+
+        $favoriteTag->create($formData);
+
+        return response()->json(['success' => true, 'message' => 'Tag added to favorites']);
+    }
+
+    public function removeFavoriteTag($favoriteTagId, Request $request)
+    {
+        $studentId = auth('student')->id(); // Get the authenticated student's ID
+
+        // Find the favorite tag record based on student_id and tag_id
+        $favoriteTag = FavoriteTags::where([
+            'student_id' => $studentId,
+            'tag_id' => $favoriteTagId
+        ])->first();
+
+        if ($favoriteTag) {
+            // Delete the favorite tag record
+            $favoriteTag->delete();
+            return response()->json(['success' => true, 'message' => 'Tag removed from favorites']);
+        }
+
+        // Return an error response if the record was not found
+        return response()->json(['success' => false, 'message' => 'Favorite tag not found']);
+    }
+
 
     public function show(Notification $notification) {
         $tagIds = json_decode($notification->tags);

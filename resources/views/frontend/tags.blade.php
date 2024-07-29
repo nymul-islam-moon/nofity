@@ -4,12 +4,6 @@
 
 @include('layouts.frontend.navbar')
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
 <div class="container search-section">
     <div class="row justify-content-center px-2">
         <form action="" method="GET" class="d-flex w-100">
@@ -23,16 +17,29 @@
     </div>
 </div>
 
-
 <div class="container mt-4">
     <h2 class="mb-4">Tags</h2>
     <div class="tags-container mb-4">
         @foreach ($tags as $tag)
             <div class="tag-item btn-group mt-3 mb-3" role="group" aria-label="{{ $tag->name }}">
                 <button type="button" class="btn btn-primary me-2">{{ $tag->name }}</button>
-                <button type="button" class="btn btn-outline-success active-toggle">+</button>
+                <!-- Update button appearance and URL based on favorite status -->
+                @php
+                    $isFavorited = in_array($tag->id, $favoriteTagIds);
+                    $buttonClass = $isFavorited ? 'btn-outline-danger' : 'btn-outline-success';
+                    $buttonText = $isFavorited ? '-' : '+';
+                    $route = $isFavorited ? route('remove.favorite.tag', $tag->id) : route('store.favorite.tag', $tag->id);
+                @endphp
+                <button
+                    type="button"
+                    class="btn {{ $buttonClass }} active-toggle"
+                    data-url="{{ $route }}"
+                >
+                    {{ $buttonText }}
+                </button>
             </div>
         @endforeach
+
     </div>
 </div>
 
@@ -69,17 +76,51 @@
 
         });
 
-        $(document).on('click', '.active-toggle', function(e){
-            e.preventDefault();
+        // $(document).on('click', '.active-toggle', function(e){
+        //     e.preventDefault();
 
-            if ($(this).text() === '+') {
-                $(this).text('-');
-                $(this).removeClass('btn-outline-success').addClass('btn-outline-danger');
-            } else {
-                $(this).text('+');
-                $(this).removeClass('btn-outline-danger').addClass('btn-outline-success');
-            }
+        //     if ($(this).text() === '+') {
+        //         $(this).text('-');
+        //         $(this).removeClass('btn-outline-success').addClass('btn-outline-danger');
+        //     } else {
+        //         $(this).text('+');
+        //         $(this).removeClass('btn-outline-danger').addClass('btn-outline-success');
+        //     }
+        // });
+        $(document).on('click', '.active-toggle', function(e) {
+            e.preventDefault();
+            
+            var $button = $(this);
+            var url = $button.data('url');
+            
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}" // Include CSRF token for Laravel
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update button text and class based on current state
+                        if ($button.text().trim() === '+') {
+                            $button.text('-');
+                            $button.removeClass('btn-outline-success').addClass('btn-outline-danger');
+                            toastr.success(response.message);
+                        } else {
+                            $button.text('+');
+                            $button.removeClass('btn-outline-danger').addClass('btn-outline-success');
+                            toastr.error(response.message);
+                        }
+                    } else {
+                        alert('An error occurred: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred: ' + error);
+                }
+            });
         });
+
     })
 </script>
 @endpush
