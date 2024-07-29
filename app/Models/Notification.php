@@ -32,5 +32,10 @@ class Notification extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function rel_to_tags()
+    {
+        return $this->belongsToMany(Tag::class, 'notification_tag');
+    }
+
 
 }

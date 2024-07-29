@@ -162,10 +162,12 @@ class NotificationController extends Controller
     public function store(StoreNotificationRequest $request, Notification $notification)
     {
         $formData = $request->validated();
-
+        $tags = $formData['tags'];
         $formData['tags'] = json_encode($formData['tags']);
 
-        $notification->create( $formData );
+        $createdNotify = $notification->create( $formData );
+
+        $createdNotify->rel_to_tags()->sync($tags);
 
         return response()->json("$this->title created successfully");
 

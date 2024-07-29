@@ -23,4 +23,9 @@ class Tag extends Model
     {
         return $this->hasMany(FavoriteTags::class);
     }
+
+    public function rel_to_notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_tag');
+    }
 }
