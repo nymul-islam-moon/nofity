@@ -6,7 +6,7 @@
 
 <div class="container search-section">
     <div class="row justify-content-center px-2">
-        <form action="" method="GET" class="d-flex w-100">
+        <form action="{{ route('frontend.student.tags') }}" method="GET" class="d-flex w-100">
             <div class="col-md-10 mb-2 mb-md-0">
                 <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request('search') }}">
             </div>
@@ -23,7 +23,7 @@
         @foreach ($tags as $tag)
             <div class="tag-item btn-group mt-3 mb-3" role="group" aria-label="{{ $tag->name }}">
                 <button type="button" class="btn btn-primary me-2">{{ $tag->name }}</button>
-                <!-- Update button appearance and URL based on favorite status -->
+                <!-- Determine button appearance and URL based on favorite status -->
                 @php
                     $isFavorited = in_array($tag->id, $favoriteTagIds);
                     $buttonClass = $isFavorited ? 'btn-outline-danger' : 'btn-outline-success';
@@ -34,6 +34,7 @@
                     type="button"
                     class="btn {{ $buttonClass }} active-toggle"
                     data-url="{{ $route }}"
+                    data-tag-id="{{ $tag->id }}"
                 >
                     {{ $buttonText }}
                 </button>
@@ -76,17 +77,6 @@
 
         });
 
-        // $(document).on('click', '.active-toggle', function(e){
-        //     e.preventDefault();
-
-        //     if ($(this).text() === '+') {
-        //         $(this).text('-');
-        //         $(this).removeClass('btn-outline-success').addClass('btn-outline-danger');
-        //     } else {
-        //         $(this).text('+');
-        //         $(this).removeClass('btn-outline-danger').addClass('btn-outline-success');
-        //     }
-        // });
         $(document).on('click', '.active-toggle', function(e) {
             e.preventDefault();
             
@@ -101,25 +91,28 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Update button text and class based on current state
+                        // Update button text, class, and URL based on the new state
                         if ($button.text().trim() === '+') {
                             $button.text('-');
                             $button.removeClass('btn-outline-success').addClass('btn-outline-danger');
+                            $button.data('url', "{{ route('remove.favorite.tag', '__TAG_ID__') }}".replace('__TAG_ID__', $button.data('tag-id')));
                             toastr.success(response.message);
                         } else {
                             $button.text('+');
                             $button.removeClass('btn-outline-danger').addClass('btn-outline-success');
+                            $button.data('url', "{{ route('store.favorite.tag', '__TAG_ID__') }}".replace('__TAG_ID__', $button.data('tag-id')));
                             toastr.error(response.message);
                         }
                     } else {
-                        alert('An error occurred: ' + response.message);
+                        toastr.error('An error occurred: ' + response.message);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('An error occurred: ' + error);
+                    toastr.error('An error occurred: ' + error);
                 }
             });
         });
+
 
     })
 </script>

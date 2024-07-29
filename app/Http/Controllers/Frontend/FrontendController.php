@@ -84,12 +84,21 @@ class FrontendController extends Controller
         return view('frontend.important', compact('notifications', 'tags'));
     }
 
-    public function tags()
+    public function tags(Request $request)
     {
         $studentId = auth('student')->id(); // Assuming 'student' guard is used
 
-        // Fetch all tags
+        // Get search term from the request
+        $search = $request->input('search', '');
+
+        // Fetch all tags with search functionality and excluding tag with ID 1
         $tags = Tag::where('status', 1)
+            ->where('id', '!=', 1) // Exclude tag with ID 1
+            ->where(function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                }
+            })
             ->orderBy('name', 'asc')
             ->get();
 
@@ -98,8 +107,10 @@ class FrontendController extends Controller
             ->pluck('tag_id')
             ->toArray();
 
-        return view('frontend.tags', compact('tags', 'favoriteTagIds'));
+        return view('frontend.tags', compact('tags', 'favoriteTagIds', 'search'));
     }
+
+
 
 
     public function storeFavoriteTag($favoriteTagId, Request $request)
