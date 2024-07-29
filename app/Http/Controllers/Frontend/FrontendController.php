@@ -102,7 +102,7 @@ class FrontendController extends Controller
 
         // Retrieve tags that are in the favorite tag IDs
         $tags = Tag::whereIn('id', $favoriteTagIds)->get();
-        
+
         // Convert favorite tag IDs to JSON format for the query
         $favoriteTagIdsJson = json_encode($favoriteTagIds);
 
@@ -121,7 +121,9 @@ class FrontendController extends Controller
     }
 
 
-
+    public function profile() {
+        return view('frontend.profile');
+    }
 
 
     public function tags(Request $request)
