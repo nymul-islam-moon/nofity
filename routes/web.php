@@ -34,6 +34,6 @@ Route::prefix('/')->group(function () {
         Route::get('/important', 'important')->name('frontend.student.important')->middleware('student');
         Route::post('/{favoriteTagId}/store', 'storeFavoriteTag')->name('store.favorite.tag');
         Route::post('/{favoriteTagId}/remove', 'removeFavoriteTag')->name('remove.favorite.tag');
-        // Route::get('/favorite-notifications', [FrontendController::class, 'showFavoriteNotifications'])->name('favorite.notifications');
+        Route::get('/favorite/notifications', 'favoriteNotifications')->name('frontend.favorite.notification');
     });
 });

@@ -84,6 +84,46 @@ class FrontendController extends Controller
         return view('frontend.important', compact('notifications', 'tags'));
     }
 
+    public function favoriteNotifications(Request $request)
+    {
+        $studentId = auth('student')->id(); // Get the authenticated student's ID
+
+        // Fetch favorite tag IDs for the current student
+        $favoriteTagIds = FavoriteTags::where('student_id', $studentId)
+            ->pluck('tag_id')
+            ->toArray();
+
+        // If there are no favorite tags, return an empty result set
+        if (empty($favoriteTagIds)) {
+            $tags = [];
+            $notifications = collect(); // Return an empty collection
+            return view('frontend.favorite_notification', compact('notifications', 'tags'));
+        }
+
+        // Retrieve tags that are in the favorite tag IDs
+        $tags = Tag::whereIn('id', $favoriteTagIds)->get();
+        
+        // Convert favorite tag IDs to JSON format for the query
+        $favoriteTagIdsJson = json_encode($favoriteTagIds);
+
+        // Filter notifications where any of the JSON tags match the favorite tags
+        $notifications = Notification::where('status', 1)
+            ->whereRaw('JSON_CONTAINS(tags, ?, "$")', [$favoriteTagIdsJson])
+            ->simplePaginate(10);
+
+        // Optionally, attach tag names to each notification for display
+        $notifications->each(function ($notification) {
+            $tagIds = json_decode($notification->tags, true); // Decode JSON
+            $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
+        });
+
+        return view('frontend.favorite_notification', compact('notifications', 'tags'));
+    }
+
+
+
+
+
     public function tags(Request $request)
     {
         $studentId = auth('student')->id(); // Assuming 'student' guard is used

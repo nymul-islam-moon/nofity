@@ -9,6 +9,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.student.tags') }}"><i class="fa-solid fa-tag"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('frontend.favorite.notification') }}"><i class="fa-solid fa-bell"></i></a>
+                </li>
             </ul>
         </div>
         <div class="dropdown">
