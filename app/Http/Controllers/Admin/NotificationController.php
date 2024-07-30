@@ -41,7 +41,7 @@ class NotificationController extends Controller
      */
     public function index( Request $request )
     {
-        $query = DB::table('notifications');
+        $query = Notification::with('rel_to_tags');
 
         if (!empty($request->f_soft_delete)) {
             if ( $request->f_soft_delete == 1 ) {
@@ -112,20 +112,16 @@ class NotificationController extends Controller
                     return $html;
                 })
                 ->editColumn('tags', function ($row) {
-                    // Decode the JSON string to an array
-                    $tagIds = json_decode($row->tags, true);
-
-                    // Get the tag names
-                    $tags = Notification::getTagNames($tagIds);
-
+                    // Fetch tags related to the notification using the `rel_to_tags` relation
+                    $tags = $row->rel_to_tags->pluck('name');
+    
                     // Wrap each tag name in the desired HTML structure
-                    $tagHtml = array_map(function($tag) {
+                    $tagHtml = $tags->map(function($tag) {
                         return '<span class="badge badge-label bg-success"><i class="mdi mdi-circle-medium"></i> ' . htmlspecialchars($tag) . '</span>';
-                    }, $tags);
+                    })->toArray();
+                    
                     // Join all the HTML strings into one
                     return implode(' ', $tagHtml);
-
-
                 })
                 ->rawColumns(['action', 'status', 'checkbox', 'tags'])
                 ->make(true);
