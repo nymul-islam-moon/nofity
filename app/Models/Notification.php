@@ -16,6 +16,7 @@ class Notification extends Model
 
     protected $fillable = [ 'title', 'short_description', 'description', 'status', 'tags' ];
 
+    public $timestamps = true;
 
     public static function getTagNames(array $tagIds)
     {
@@ -34,7 +35,7 @@ class Notification extends Model
 
     public function rel_to_tags()
     {
-        return $this->belongsToMany(Tag::class, 'notification_tag');
+        return $this->belongsToMany(Tag::class, 'notification_tag')->withTimestamps();
     }
 
 

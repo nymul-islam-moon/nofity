@@ -209,10 +209,16 @@ class NotificationController extends Controller
     public function update(UpdateNotificationRequest $request, Notification $notification)
     {
         $formData = $request->validated();
+        $tags = $formData['tags'];
 
-        $formData['tags'] = json_encode($formData['tags']);
+        // Encode tags to JSON format
+        $formData['tags'] = json_encode($tags);
 
+        // Update the notification with the form data
         $notification->update($formData);
+
+        // Sync the tags in the pivot table
+        $notification->rel_to_tags()->sync($tags);
 
         return response()->json("{$notification->title} updated successfully");
     }

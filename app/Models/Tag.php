@@ -26,6 +26,6 @@ class Tag extends Model
 
     public function rel_to_notifications()
     {
-        return $this->belongsToMany(Notification::class, 'notification_tag');
+        return $this->belongsToMany(Notification::class, 'notification_tag')->withTimestamps();
     }
 }
