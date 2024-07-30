@@ -19,7 +19,7 @@
                 <i class="fas fa-user"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="profile.html">Profile</a>
+                <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">Profile</a>
                 <a class="dropdown-item" href="{{ route('frontend.student.logout') }}" id="frontend_logout">{{ __('Logout') }}</a>
             </div>
         </div>
