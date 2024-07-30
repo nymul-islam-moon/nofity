@@ -20,32 +20,11 @@ class FrontendController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Notification::where('status', 1);
-
-        if ($request->has('search') && !is_null($request->input('search'))) {
-            $search = $request->input('search');
-
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('short_description', 'LIKE', '%' . $search . '%')
-                ->orWhereJsonContains('tags', $search);
-            });
-        }
-
-        if ($request->has('tag') && $request->input('tag') != 0) {
-            $tagId = $request->input('tag');
-
-            $query->whereJsonContains('tags', $tagId);
-        }
+        $query = Notification::with('rel_to_tags');
 
         $tags = Tag::where('status', 1)->get();
 
-        $notifications = $query->simplePaginate(10);
-
-        $notifications->each(function ($notification) {
-            $tagIds = json_decode($notification->tags);
-            $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-        });
+        $notifications = $query->orderByDesc('id')->simplePaginate(10);
 
         return view('frontend.index', compact('notifications', 'tags'));
     }

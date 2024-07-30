@@ -29,6 +29,6 @@ class TagSeeder extends Seeder
             Tag::create($tag);
         }
 
-        Tag::factory()->count(50)->create();
+        // Tag::factory()->count(50)->create();
     }
 }
