@@ -132,6 +132,54 @@ class FrontendController extends Controller
         return view('frontend.profile', compact('student'));
     }
 
+    public function profile_update(Request $request)
+    {
+        $studentId = auth('student')->id(); // Get the authenticated student's ID
+
+        // Validate the request data
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:students,email,' . $studentId,
+            'phone' => 'nullable|string|max:20',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Find the student
+        $student = Student::find($studentId);
+
+        // Update the student's profile
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->email = $request->email;
+        $student->phone = $request->phone;
+
+        // Handle the profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            // Delete the old profile picture if it exists
+            if ($student->profile_picture && file_exists(public_path('uploads/student/' . $student->profile_picture))) {
+                unlink(public_path('uploads/student/' . $student->profile_picture));
+            }
+
+            // Upload the new profile picture
+            $profilePicture = $request->file('profile_picture');
+            $profilePictureName = $studentId . '__' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
+            $profilePicture->move(public_path('uploads/student'), $profilePictureName);
+
+            // Update the student's profile picture
+            $student->profile_picture = $profilePictureName;
+        }
+
+        // Save the updated student record
+        $student->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Profile updated successfully!'], 200);
+    }
+
+
+
+
 
     public function tags(Request $request)
     {

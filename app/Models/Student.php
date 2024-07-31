@@ -27,7 +27,7 @@ class Student extends Authenticatable
         'email',
         'gender',
         'student_id',
-        'image',
+        'profile_picture',
         'status',
         'address',
         'password',

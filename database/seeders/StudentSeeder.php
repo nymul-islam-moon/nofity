@@ -27,6 +27,7 @@ class StudentSeeder extends Seeder
                 'last_name' => 'Moon',
                 'email' => 'nymulislamlee@gmail.com',
                 'phone' => '01786287789',
+                'profile_picture' => 'profile.jpg',
                 'student_id' => 'UG02-47-18-017',
                 'status' => 1,
                 'email_verified_at' => Carbon::now(),

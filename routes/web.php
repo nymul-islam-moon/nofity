@@ -36,5 +36,6 @@ Route::prefix('/')->group(function () {
         Route::post('/{favoriteTagId}/remove', 'removeFavoriteTag')->name('remove.favorite.tag');
         Route::get('/favorite/notifications', 'favoriteNotifications')->name('frontend.favorite.notification');
         Route::get('/profile', 'profile')->name('frontend.profile.index');
+        Route::post('/update/profile', 'profile_update')->name('frontend.profile.update');
     });
 });
