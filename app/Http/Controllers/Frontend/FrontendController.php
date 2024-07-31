@@ -20,69 +20,63 @@ class FrontendController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Notification::where('status', 1);
-
-        if ($request->has('search') && !is_null($request->input('search'))) {
-            $search = $request->input('search');
-
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('short_description', 'LIKE', '%' . $search . '%')
-                ->orWhereJsonContains('tags', $search);
+        $query = Notification::with('rel_to_tags')->where('status', 1);
+    
+        // Filter by search term (name or short description)
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('short_description', 'like', '%' . $request->search . '%');
             });
         }
-
-        if ($request->has('tag') && $request->input('tag') != 0) {
-            $tagId = $request->input('tag');
-
-            $query->whereJsonContains('tags', $tagId);
+    
+        // Filter by tag id
+        if ($request->has('tag_id') && $request->tag_id != 0) {
+            $query->whereHas('rel_to_tags', function ($q) use ($request) {
+                $q->where('tag_id', $request->tag_id);
+            });
         }
-
+    
         $tags = Tag::where('status', 1)->get();
-
         $notifications = $query->simplePaginate(10);
-
-        $notifications->each(function ($notification) {
-            $tagIds = json_decode($notification->tags);
-            $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-        });
-
+    
         return view('frontend.index', compact('notifications', 'tags'));
     }
+    
 
 
     public function important(Request $request)
     {
-        $query = Notification::where('status', 1)
-                            ->whereJsonContains('tags', 1); // Ensure we are filtering by tag ID 1
+        // Base query to filter notifications with status 1 and tag ID 1
+        $query = Notification::with('rel_to_tags')
+                            ->where('status', 1)
+                            ->whereHas('rel_to_tags', function($q) {
+                                $q->where('tag_id', 1); // Ensure filtering by tag ID 1
+                            });
 
-        if ($request->has('search') && !is_null($request->input('search'))) {
+        // Filter by search term for title and short_description
+        if ($request->has('search') && !empty($request->input('search'))) {
             $search = $request->input('search');
-
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('short_description', 'LIKE', '%' . $search . '%')
-                ->orWhereJsonContains('tags', $search);
+                ->orWhere('short_description', 'LIKE', '%' . $search . '%');
             });
         }
 
+        // Filter by tag ID from the dropdown selection
         if ($request->has('tag') && $request->input('tag') != 0) {
             $tagId = $request->input('tag');
-
-            $query->whereJsonContains('tags', $tagId);
+            $query->whereHas('rel_to_tags', function ($q) use ($tagId) {
+                $q->where('tag_id', $tagId);
+            });
         }
 
         $tags = Tag::where('status', 1)->get();
-
         $notifications = $query->simplePaginate(10);
-
-        $notifications->each(function ($notification) {
-            $tagIds = json_decode($notification->tags);
-            $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-        });
 
         return view('frontend.important', compact('notifications', 'tags'));
     }
+
 
     public function favoriteNotifications(Request $request)
     {
@@ -103,22 +97,33 @@ class FrontendController extends Controller
         // Retrieve tags that are in the favorite tag IDs
         $tags = Tag::whereIn('id', $favoriteTagIds)->get();
 
-        // Convert favorite tag IDs to JSON format for the query
-        $favoriteTagIdsJson = json_encode($favoriteTagIds);
+        $query = Notification::where('status', 1)
+            ->whereHas('rel_to_tags', function ($query) use ($favoriteTagIds) {
+                $query->whereIn('tag_id', $favoriteTagIds);
+            });
 
-        // Filter notifications where any of the JSON tags match the favorite tags
-        $notifications = Notification::where('status', 1)
-            ->whereRaw('JSON_CONTAINS(tags, ?, "$")', [$favoriteTagIdsJson])
-            ->simplePaginate(10);
+        // Filter by search term (title or short description)
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('short_description', 'like', '%' . $request->search . '%');
+            });
+        }
 
-        // Optionally, attach tag names to each notification for display
-        $notifications->each(function ($notification) {
-            $tagIds = json_decode($notification->tags, true); // Decode JSON
-            $notification->tagNames = Tag::whereIn('id', $tagIds)->pluck('name')->toArray();
-        });
+        // Filter by tag ID from the dropdown selection
+        if ($request->has('tag_id') && $request->tag_id != 0) {
+            $query->whereHas('rel_to_tags', function ($q) use ($request) {
+                $q->where('tag_id', $request->tag_id);
+            });
+        }
+
+        // Paginate the results
+        $notifications = $query->simplePaginate(10);
 
         return view('frontend.favorite_notification', compact('notifications', 'tags'));
     }
+
+
 
 
     public function profile() {

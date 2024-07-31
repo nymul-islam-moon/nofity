@@ -30,9 +30,9 @@
                             </h3>
                             <p class="card-text paper">{{ $notification->short_description }}</p>
                             <div class="tags">
-                                @if(!empty($notification->tagNames))
-                                    @foreach ($notification->tagNames as $tagName)
-                                        <span class="badge badge-label bg-info">{{ $tagName }}</span>
+                                @if($notification->rel_to_tags->isNotEmpty())
+                                    @foreach ($notification->rel_to_tags as $tag)
+                                        <span class="badge badge-label bg-info">{{ $tag->name }}</span>
                                     @endforeach
                                 @else
                                     <span class="badge badge-label bg-secondary">N/A</span>
@@ -51,6 +51,7 @@
         <p>No notifications found.</p>
     @endif
 </div>
+
 
 
 @endsection

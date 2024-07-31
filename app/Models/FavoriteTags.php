@@ -16,7 +16,7 @@ class FavoriteTags extends Model
     /**
      * Get the student that owns the favorite tag.
      */
-    public function student()
+    public function rel_to_students()
     {
         return $this->belongsTo(Student::class);
     }
@@ -24,7 +24,7 @@ class FavoriteTags extends Model
     /**
      * Get the tag that is associated with the favorite tag.
      */
-    public function tag()
+    public function rel_to_tags()
     {
         return $this->belongsTo(Tag::class);
     }

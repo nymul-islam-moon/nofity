@@ -11,7 +11,7 @@
                 <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request('search') }}">
             </div>
             <div class="col-md-4 mb-2 mb-md-0">
-                <select class="form-control" name="tag">
+                <select class="form-control" name="tag_id">
                     <option value="0"> -- Choose Tag -- </option>
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
@@ -38,9 +38,9 @@
                             </h3>
                             <p class="card-text paper">{{ $notification->short_description }}</p>
                             <div class="tags">
-                                @if(!empty($notification->tagNames))
-                                    @foreach ($notification->tagNames as $tagName)
-                                        <span class="badge badge-label bg-info">{{ $tagName }}</span>
+                                @if($notification->rel_to_tags->isNotEmpty())
+                                    @foreach ($notification->rel_to_tags as $tag)
+                                        <span class="badge badge-label bg-info">{{ $tag->name }}</span>
                                     @endforeach
                                 @else
                                     <span class="badge badge-label bg-secondary">N/A</span>
