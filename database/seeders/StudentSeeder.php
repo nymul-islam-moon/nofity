@@ -23,8 +23,8 @@ class StudentSeeder extends Seeder
         $students = [
             [
                 'id' => 1,
-                'first_name' => 'Nymul Islam',
-                'last_name' => 'Moon',
+                'first_name' => 'Nymul',
+                'last_name' => 'Islam',
                 'email' => 'nymulislamlee@gmail.com',
                 'phone' => '01786287789',
                 'profile_picture' => 'profile.jpg',
@@ -33,6 +33,7 @@ class StudentSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('Moon@12345'),
                 'address' => 'Mohammadpur, Dhaka',
+                'gender' => 'Male', // Ensure this matches your gender field values
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

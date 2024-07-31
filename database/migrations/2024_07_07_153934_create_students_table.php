@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('profile_picture')->nullable();
             $table->string('student_id')->unique();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->boolean('status')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('verification_token')->nullable();
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        
     }
 
     /**

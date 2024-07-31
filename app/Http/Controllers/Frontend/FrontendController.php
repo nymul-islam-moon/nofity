@@ -143,6 +143,8 @@ class FrontendController extends Controller
             'email' => 'required|email|max:255|unique:students,email,' . $studentId,
             'phone' => 'nullable|string|max:20',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'address' => 'nullable|string|max:255',
+            'gender' => 'nullable|in:male,female,other', // Adjust options based on your requirements
         ]);
 
         // Find the student
@@ -153,6 +155,8 @@ class FrontendController extends Controller
         $student->last_name = $request->last_name;
         $student->email = $request->email;
         $student->phone = $request->phone;
+        $student->address = $request->address;
+        $student->gender = $request->gender;
 
         // Handle the profile picture upload
         if ($request->hasFile('profile_picture')) {
@@ -176,6 +180,7 @@ class FrontendController extends Controller
         // Return a success response
         return response()->json(['message' => 'Profile updated successfully!'], 200);
     }
+
 
 
 

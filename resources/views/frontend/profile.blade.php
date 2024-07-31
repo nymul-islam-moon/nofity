@@ -39,20 +39,39 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">E-mail</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ $student->email }}" placeholder="Enter E-mail">
+                        <input type="email" class="form-control" id="email" name="email" value="{{ $student->email }}" placeholder="Enter E-mail" readonly>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone">Phone</label>
                         <input type="text" class="form-control" id="phone" name="phone" value="{{ $student->phone }}" placeholder="Enter Phone Number">
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" class="form-control" id="studentId" name="student_id" value="{{ $student->student_id }}" placeholder="Student ID" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="">Select Gender</option>
+                            <option value="male" {{ $student->gender == 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ $student->gender == 'female' ? 'selected' : '' }}>Female</option>
+                            <option value="other" {{ $student->gender == 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{ $student->address }}" placeholder="Enter Address">
+                </div>
                 <div class="form-group">
                     <label for="profilePicture">Profile Picture</label>
                     <input type="file" class="form-control-file" id="profilePicture" name="profile_picture">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Profile</button>
-            </form>
-            
+            </form>            
         </div>
     </div>
 </div>
