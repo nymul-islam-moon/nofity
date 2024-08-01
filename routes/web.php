@@ -34,8 +34,9 @@ Route::prefix('/')->group(function () {
         Route::get('/important', 'important')->name('frontend.student.important')->middleware('student');
         Route::post('/{favoriteTagId}/store', 'storeFavoriteTag')->name('store.favorite.tag');
         Route::post('/{favoriteTagId}/remove', 'removeFavoriteTag')->name('remove.favorite.tag');
-        Route::get('/favorite/notifications', 'favoriteNotifications')->name('frontend.favorite.notification');
-        Route::get('/profile', 'profile')->name('frontend.profile.index');
-        Route::post('/update/profile', 'profile_update')->name('frontend.profile.update');
+        Route::get('/favorite/notifications', 'favoriteNotifications')->name('frontend.favorite.notification')->middleware('student');
+        Route::get('/profile', 'profile')->name('frontend.profile.index')->middleware('student');
+        Route::post('/update/profile', 'profile_update')->name('frontend.profile.update')->middleware('student');
+        Route::post('/update/password', 'password_update')->name('frontend.profile.password')->middleware('student');
     });
 });

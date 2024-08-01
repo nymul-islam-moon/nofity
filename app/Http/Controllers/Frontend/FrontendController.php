@@ -182,6 +182,31 @@ class FrontendController extends Controller
     }
 
 
+    public function password_update(Request $request)
+    {
+        $studentId = auth('student')->id(); // Get the authenticated student's ID
+
+        // Validate the request data
+        $formData = $request->validate([
+            'current_password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Find the student
+        $student = Student::find($studentId);
+
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $student->password)) {
+            return response()->json(['message' => 'The current password is incorrect.'], 422);
+        }
+
+        // Update the student's password
+        $student->password = Hash::make($request->new_password);
+        $student->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Password updated successfully!'], 200);
+    }
 
 
 
