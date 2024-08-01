@@ -303,16 +303,22 @@ class FrontendController extends Controller
             'student_id' => 'required|string',
             'password' => 'required|min:6',
         ]);
-
+    
         // Attempt to log the user in
-        if (Auth::guard('student')->attempt(['student_id' => 'UG' . $request->student_id, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('student')->attempt([
+            'student_id' => 'UG' . $request->student_id, 
+            'password' => $request->password
+        ], $request->get('remember'))) {
             // If successful, redirect to the intended location
             return redirect()->intended(route('frontend.student.index'))->with('success', 'Student Login Successful');
         }
-
-        // If unsuccessful, redirect back with form data
-        return back()->withErrors(['email' => 'These credentials do not match our records.'])->withInput($request->only('email', 'remember'));
+    
+        // If unsuccessful, redirect back with form data and errors
+        return back()
+            ->withErrors(['student_id' => 'These credentials do not match our records.'])
+            ->withInput($request->only('student_id', 'remember'));
     }
+    
 
     public function registration() {
 
