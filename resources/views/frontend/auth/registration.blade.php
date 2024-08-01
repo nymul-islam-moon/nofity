@@ -69,7 +69,12 @@
 
         <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required placeholder="Enter Phone Number" autocomplete="phone">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text form-control" id="basic-addon1">+880</span>
+                </div>
+                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required placeholder="0000-000-0000" autocomplete="phone">
+            </div>
             @error('phone')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
