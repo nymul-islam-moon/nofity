@@ -32,7 +32,11 @@ class RegistrationMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Registration Email')
-                    ->view('admin.email.registration');
+        $adminUrl = env('APP_URL') . '/admin/login';
+
+        $this->mailData['admin_url'] = $adminUrl;
+
+        return $this->subject('Faculty Registration Success')
+                    ->view('emails.adminFacultyRegistration');
     }
 }

@@ -162,25 +162,32 @@ class UsersController extends Controller
    public function store( StoreUsersRequest $request, User $users )
    {
         $formData                   = $request->validated();
-        if ($request->hasFile('image')) {
 
-            $imgFile                    = $request->file('image')->getClientOriginalName();
-            $imgFileArr                 = explode('.', $imgFile);
-            $imgOriginalName            = $imgFileArr[0];
-            $imgName                    = $imgOriginalName.'.'.$request->image->extension();
-            $request->image->move(public_path('uploads/user/img/'), $imgName);
-            $formData['image']          = $imgName;
+        if ($request->hasFile('image')) {
+            // Delete the old profile picture if it exists
+            if ($users->profile_picture && file_exists(public_path('uploads/faculty/' . $users->profile_picture))) {
+                unlink(public_path('uploads/faculty/' . $users->profile_picture));
+            }
+
+            // Upload the new profile picture
+            $profilePicture = $request->file('image');
+            $profilePictureName = $users->id . '__' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
+            $profilePicture->move(public_path('uploads/faculty'), $profilePictureName);
+
+            // Update the student's profile picture
+            $formData['image'] = $profilePictureName;
         }
 
-        $password                   = 'User@1234';
+        $password                   = 'admin@12345';
         $formData['password']       = Hash::make($password);
 
 
         $users->create( $formData );
 
         $mailData = [
-            'title'     => 'Email from E-book',
+            'title'     => env('APP_NAME', 'Default Title'),
             'email'     => $formData['email'],
+            'type'      => $formData['is_admin'] == 1 ? 'Faculty Head' : 'Faculty Member',
             'password'  => $password,
             'admin_url' => config('app.url') . 'admin/home',
             'url'       => config('app.url')

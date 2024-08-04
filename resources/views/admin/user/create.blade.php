@@ -52,8 +52,8 @@
                     <label for="is_admin" class="form-label">Type</label>
                     <select class="form-control" required name="is_admin" id="category_status">
                         <option selected>Type</option>
-                        <option value="2">Admin</option>
-                        <option value="3">Reader</option>
+                        <option value="1">Faculty Head</option>
+                        <option value="2">Faculty Member</option>
                     </select>
                     <span class="error error_is_admin text-danger"></span>
                 </div>
