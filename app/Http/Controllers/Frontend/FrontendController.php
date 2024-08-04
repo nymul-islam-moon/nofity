@@ -21,7 +21,7 @@ class FrontendController extends Controller
     public function index(Request $request)
     {
         $query = Notification::with('rel_to_tags')->where('status', 1);
-    
+
         // Filter by search term (name or short description)
         if ($request->has('search') && !empty($request->search)) {
             $query->where(function($q) use ($request) {
@@ -29,20 +29,20 @@ class FrontendController extends Controller
                   ->orWhere('short_description', 'like', '%' . $request->search . '%');
             });
         }
-    
+
         // Filter by tag id
         if ($request->has('tag_id') && $request->tag_id != 0) {
             $query->whereHas('rel_to_tags', function ($q) use ($request) {
                 $q->where('tag_id', $request->tag_id);
             });
         }
-    
+
         $tags = Tag::where('status', 1)->get();
         $notifications = $query->simplePaginate(10);
-    
+
         return view('frontend.index', compact('notifications', 'tags'));
     }
-    
+
 
 
     public function important(Request $request)
@@ -303,22 +303,22 @@ class FrontendController extends Controller
             'student_id' => 'required|string',
             'password' => 'required|min:6',
         ]);
-    
+
         // Attempt to log the user in
         if (Auth::guard('student')->attempt([
-            'student_id' => 'UG' . $request->student_id, 
+            'student_id' => 'UG' . $request->student_id,
             'password' => $request->password
         ], $request->get('remember'))) {
             // If successful, redirect to the intended location
             return redirect()->intended(route('frontend.student.index'))->with('success', 'Student Login Successful');
         }
-    
+
         // If unsuccessful, redirect back with form data and errors
         return back()
             ->withErrors(['student_id' => 'These credentials do not match our records.'])
             ->withInput($request->only('student_id', 'remember'));
     }
-    
+
 
     public function registration() {
 
@@ -345,7 +345,7 @@ class FrontendController extends Controller
             'last_name'     => 'required|string|max:255',
             'email'         => 'required|string|email|max:255|unique:students',
             'student_id'    => 'required|string|max:255|unique:students|student_id_format', // Apply the custom rule here
-            'phone'         => 'required|string|max:15',
+            'phone'         => 'required|string|max:15|unique:students',
             'address'       => 'required|string|max:255',
             'password'      => 'required|string|min:8|confirmed',
         ]);
