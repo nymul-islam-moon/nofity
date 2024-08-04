@@ -112,11 +112,9 @@ class UsersController extends Controller
                 ->editColumn( 'type', function ( $row )  {
 
                     if ( $row->is_admin == 1 ) {
-                        return 'Super Admin';
-                    } elseif ( $row->is_admin == 2 ) {
-                        return 'Admin';
+                        return 'Faculty Head';
                     } else {
-                        return 'Reader';
+                        return 'Faculty Member';
                     }
 
                 })
