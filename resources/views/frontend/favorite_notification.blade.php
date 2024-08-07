@@ -11,7 +11,7 @@
                 <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request('search') }}">
             </div>
             <div class="col-md-4 mb-2 mb-md-0">
-                <select class="form-control" name="tag_id">
+                <select class="form-control" name="tag_id" id="tag_id">
                     <option value="0"> -- Choose Tag -- </option>
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
