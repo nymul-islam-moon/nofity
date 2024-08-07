@@ -51,7 +51,7 @@ Route::middleware(['canLogin'])->prefix('admin')->group(function () {
         Route::post('/restore/all', 'restoreAll')->name('faculty.tag.restore_all');
     });
 
-    Route::controller(UsersController::class)->prefix('users')->group(function () {
+    Route::controller(UsersController::class)->prefix('faculty')->group(function () {
         Route::get('/', 'index')->name('admin.users.index');
         Route::get('/create', 'create')->name('admin.users.create');
         Route::post('/store', 'store')->name('admin.users.store');

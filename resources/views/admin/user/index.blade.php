@@ -42,12 +42,13 @@
                                 <div class="flex-shrink-0">
                                    <div class="d-flex flex-wrap gap-2">
 
-                                        {{-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#addModal"><i class="ri-add-line align-bottom me-1"></i> Create Task</button> --}}
-                                        <button class="btn btn-danger add-btn" href="{{ route('admin.users.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Create {{ $title }}</button>
+                                        @if (auth::user()->is_admin == 1)
+                                            <button class="btn btn-danger add-btn" href="{{ route('admin.users.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Create {{ $title }}</button>
+                                            <button class="btn btn-soft-danger" id="temp_delete_all"><i class="ri-delete-bin-2-line"></i></button>
+                                            <button class="btn btn-soft-danger d-none" id="permanent_delete_all"><i class="ri-delete-bin-2-line"></i></button>
+                                            <button class="btn btn-soft-danger d-none" id="restore_all_selected"><i class="ri-refresh-line"></i></button>
+                                        @endif
 
-                                        <button class="btn btn-soft-danger" id="temp_delete_all"><i class="ri-delete-bin-2-line"></i></button>
-                                        <button class="btn btn-soft-danger d-none" id="permanent_delete_all"><i class="ri-delete-bin-2-line"></i></button>
-                                        <button class="btn btn-soft-danger d-none" id="restore_all_selected"><i class="ri-refresh-line"></i></button>
                                    </div>
                                 </div>
                             </div>

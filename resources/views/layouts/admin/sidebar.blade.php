@@ -34,15 +34,7 @@
                     </a>
                 </li>
 
-                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components">E-Book</span></li>
-
-                @if (auth()->user()->is_admin != 3)
-                    <li class="nav-item">
-                        <a class="nav-link menu-link {{ request()->routeIs('faculty.notification.index') ? 'active' : '' }}" href="{{ route('faculty.notification.index') }}">
-                            <i class="ri-book-mark-line"></i> <span data-key="t-widgets">Category</span>
-                        </a>
-                    </li>
-                @endif
+                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components">Notify</span></li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs('faculty.tag.index') ? 'active' : '' }}" href="{{ route('faculty.tag.index') }}">

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Mail\RegistrationMail;
+use Illuminate\Support\Facades\Auth;
 use Mail;
 
 class UsersController extends Controller
@@ -73,12 +74,14 @@ class UsersController extends Controller
                     $html .='Action';
                     $html .='</button>';
                     $html .='<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">';
-                    if ($row->deleted_at == null) {
-                        $html .='<li><a class="dropdown-item" href="'. route('admin.users.edit', $row->id) .'" id="edit_btn">Edit</a></li>';
-                        $html .='<li><a class="dropdown-item" href="'. route('admin.users.destroy', $row->id) .'" id="delete_btn">Delete</a></li>';
-                    } else {
-                        $html .='<li><a class="dropdown-item" href="'. route('admin.users.restore', $row->id) .'" id="restore_btn">Restore</a></li>';
-                        $html .='<li><a class="dropdown-item" href="'. route('admin.users.forcedelete', $row->id) .'" id="force_delete_btn">Hard Delete</a></li>';
+                    if (Auth::user()->is_admin == 1) {
+                        if ($row->deleted_at == null) {
+                            $html .='<li><a class="dropdown-item" href="'. route('admin.users.edit', $row->id) .'" id="edit_btn">Edit</a></li>';
+                            $html .='<li><a class="dropdown-item" href="'. route('admin.users.destroy', $row->id) .'" id="delete_btn">Delete</a></li>';
+                        } else {
+                            $html .='<li><a class="dropdown-item" href="'. route('admin.users.restore', $row->id) .'" id="restore_btn">Restore</a></li>';
+                            $html .='<li><a class="dropdown-item" href="'. route('admin.users.forcedelete', $row->id) .'" id="force_delete_btn">Hard Delete</a></li>';
+                        }
                     }
                     $html .='</ul>';
                     $html .='</div>';
