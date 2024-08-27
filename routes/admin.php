@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TagController;
@@ -81,6 +82,10 @@ Route::middleware(['canLogin'])->prefix('admin')->group(function () {
         Route::delete('/soft/delete/all', 'softDeleteAll')->name('admin.students.softDeleteAll');
         Route::delete('/hard-delete-all', 'hardDeleteAll')->name('admin.students.hard_delete_all');
         Route::post('/restore/all', 'restoreAll')->name('admin.students.restore_all');
+    });
+
+    Route::controller(AdminProfileController::class)->prefix('profile')->group(function () {
+        Route::get('/', 'index')->name('admin.profile.index');
     });
 
 
