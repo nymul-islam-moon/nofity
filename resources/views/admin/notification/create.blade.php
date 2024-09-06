@@ -26,7 +26,7 @@
 
                 <div class="col-lg-6">
                     <label for="tags" class="form-label">Tags</label>
-                    <select class="form-control js-example-basic-multiple" name="tags[]" multiple="multiple">
+                    <select class="form-control multiple_tags" id="multiple_tags" name="tags[]" multiple="multiple">
                         @foreach ($tags as $tag)
                             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                         @endforeach
@@ -63,7 +63,9 @@
      * Select 2 JS
      * */
     $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
+        $('#multiple_tags').select2({
+            dropdownParent: $('#addModal')
+        });
     });
 
     $(document).off('submit', '#add_form').on('submit', '#add_form', function(e) {

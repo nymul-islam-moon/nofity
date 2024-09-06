@@ -1,7 +1,3 @@
-@push('script')    
-{{-- Select 2 --}}
-{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
-@endpush
 <div class="modal-content border-0">
     <div class="modal-header p-3 bg-soft-info">
         <h5 class="modal-title" id="exampleModalLabel">Edit {{ $title }}</h5>
@@ -32,11 +28,11 @@
 
                 <div class="col-lg-6">
                     <label for="tags" class="form-label">Tags</label>
-                    <select class="form-control js-example-basic-multiple" name="tags[]" multiple="multiple">
+                    <select class="form-control multiple_tags" id="multiple_tags" name="tags[]" multiple="multiple">
                         @foreach ($tags as $tag)
-                            <option value="{{ $tag->id }}" 
-                                @if (is_array($notificationTags) && in_array($tag->id, $notificationTags)) 
-                                    selected 
+                            <option value="{{ $tag->id }}"
+                                @if (is_array($notificationTags) && in_array($tag->id, $notificationTags))
+                                    selected
                                 @endif>
                                 {{ $tag->name }}
                             </option>
@@ -44,7 +40,7 @@
                     </select>
                     <span class="error error_e_tags text-danger"></span>
                 </div>
-                
+
 
                 <div class="col-lg-6">
                     <label for="short_description" class="form-label">Short Description</label>
@@ -69,18 +65,12 @@
     </form>
 </div>
 
-@push('js')
-{{-- Select 2 --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
-@endpush
-
 <script>
 
-    /**
-     * Select 2 JS
-     * */
-        $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
+    $(document).ready(function() {
+        $('#multiple_tags').select2({
+            dropdownParent: $('#editModal')
+        });
     });
 
     $(document).on('submit', '#edit_form', function(e) {
@@ -126,4 +116,4 @@
     });
 
 </script>
-
+{{-- @endpush --}}
