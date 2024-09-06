@@ -62,6 +62,12 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.profile.index') ? 'active' : '' }}" href="{{ route('admin.profile.index') }}">
+                        <i class="ri-book-fill"></i> <span data-key="t-widgets">Profile</span>
+                    </a>
+                </li>
+
 
                 {{-- <li class="nav-item">
                     <a class="nav-link menu-link active" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
