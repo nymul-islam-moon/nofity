@@ -152,7 +152,6 @@
 <script>
     $(document).ready(function() {
 
-
         /**
          * Yajra DataTable for show all data
          *

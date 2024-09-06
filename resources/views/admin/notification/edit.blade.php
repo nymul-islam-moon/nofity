@@ -69,7 +69,8 @@
 
     $(document).ready(function() {
         $('#multiple_tags').select2({
-            dropdownParent: $('#editModal')
+            dropdownParent: $('#editModal'),
+            placeholder: 'Select Tags',
         });
     });
 

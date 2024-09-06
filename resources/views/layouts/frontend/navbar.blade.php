@@ -4,9 +4,6 @@
         <div class="navbar-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.student.important') }}"><i class="fa-solid fa-star"></i></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('frontend.student.tags') }}"><i class="fa-solid fa-tag"></i></a>
                 </li>
                 <li class="nav-item">
