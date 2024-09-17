@@ -118,7 +118,7 @@ class FrontendController extends Controller
         }
 
         // Paginate the results
-        $notifications = $query->simplePaginate(10);
+        $notifications = $query->orderBy('id', 'desc')->simplePaginate(10);
 
         return view('frontend.favorite_notification', compact('notifications', 'tags'));
     }
