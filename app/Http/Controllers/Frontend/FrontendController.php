@@ -72,7 +72,7 @@ class FrontendController extends Controller
         }
 
         $tags = Tag::where('status', 1)->get();
-        $notifications = $query->simplePaginate(10);
+        $notifications = $query->orderBy('id', 'desc')->simplePaginate(10);
 
         return view('frontend.important', compact('notifications', 'tags'));
     }
