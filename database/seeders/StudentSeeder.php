@@ -37,6 +37,22 @@ class StudentSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'id' => 2,
+                'first_name' => 'Rahim',
+                'last_name' => 'Ahmed',
+                'email' => 'rahimahmed@gmail.com',
+                'phone' => '01712345678',
+                'profile_picture' => 'profile.jpg',
+                'student_id' => 'UG02-47-18-018',
+                'status' => 1,
+                'email_verified_at' => Carbon::now(),
+                'password' => Hash::make('Moon@12345'),
+                'address' => 'Mohammadpur, Dhaka',
+                'gender' => 'Male', // Ensure this matches your gender field values
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
         ];
 
         foreach ($students as $student) {

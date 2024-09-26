@@ -20,6 +20,7 @@ class ShortUrlSeeder extends Seeder
                 'original_url' => 'https://www.example.com',
                 'short_url' => 'short.ly/abcde',
                 'click_count' => 10,
+                'created_by' => 1, // Example student ID
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -27,6 +28,7 @@ class ShortUrlSeeder extends Seeder
                 'original_url' => 'https://www.sample.com',
                 'short_url' => 'short.ly/fghij',
                 'click_count' => 5,
+                'created_by' => 2, // Example student ID
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -34,10 +36,12 @@ class ShortUrlSeeder extends Seeder
                 'original_url' => 'https://www.test.com',
                 'short_url' => 'short.ly/klmno',
                 'click_count' => 20,
+                'created_by' => 1, // Example student ID
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ];
+
 
         // Insert sample data into the short_urls table
         DB::table('short_urls')->insert($sampleUrls);

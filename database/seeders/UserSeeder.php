@@ -24,6 +24,9 @@ class UserSeeder extends Seeder
         $user = [
             [
                 'id' => '1', 'first_name' => 'Mr','last_name' => 'Admin','email' => 'admin@gmail.com', 'phone' => '01712345678', 'gender' => 1, 'status' => 1, 'is_admin' => 1, 'password' => Hash::make('admin@12345'), 'address' => 'Dhanmondi, Dhaka',
+            ],
+            [
+                'id' => '2', 'first_name' => 'John','last_name' => 'Doe','email' => 'johndoe@gmail.com', 'phone' => '01723456789', 'gender' => 1, 'status' => 1, 'is_admin' => 0, 'password' => Hash::make('johndoe@12345'), 'address' => 'Mirpur, Dhaka',
             ]
         ];
 

@@ -11,5 +11,5 @@ class shortUrl extends Model
 
     protected $table = 'short_urls';
 
-    protected $fillable = [ 'original_url', 'short_url', 'click_count' ];
+    protected $fillable = [ 'original_url', 'short_url', 'click_count', 'created_by' ];
 }

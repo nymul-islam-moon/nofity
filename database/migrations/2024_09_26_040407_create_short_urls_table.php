@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('original_url');
             $table->string('short_url')->unique(); 
             $table->integer('click_count')->default(0); 
+            $table->unsignedBigInteger('created_by'); // Add created_by column
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('created_by')->references('id')->on('students')->onDelete('cascade');
         });
     }
 

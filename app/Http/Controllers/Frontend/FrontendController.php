@@ -392,12 +392,74 @@ class FrontendController extends Controller
     }
 
     // SteadFast
-    public function short_url() {
-        $urls = shortUrl::all();
+    public function short_url()
+    {
+        // Get the ID of the currently authenticated student
+        $studentId = auth('student')->id();
+
+        // Fetch URLs created by the logged-in student
+        $urls = ShortUrl::where('created_by', $studentId)->get();
+
         return view('frontend.short_url', compact('urls'));
     }
 
-    public function destroy_url($url) {
+    public function store_short_url(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'url' => 'required|url' // Ensure the input is a valid URL
+        ]);
 
+        // Get the last inserted ID or set to 0 if no records exist
+        $lastShortUrl = ShortUrl::latest('id')->first();
+        $lastId = $lastShortUrl ? $lastShortUrl->id : 0;
+        $newId = $lastId + 1; // Increment the ID for the new record
+
+        // Get the current date
+        $currentDate = now();
+        $year = $currentDate->year;
+        $month = str_pad($currentDate->month, 2, '0', STR_PAD_LEFT); // Ensure 2 digits
+        $day = str_pad($currentDate->day, 2, '0', STR_PAD_LEFT); // Ensure 2 digits
+
+        // Get the currently authenticated student's ID
+        $userId = auth('student')->id();
+
+        // Construct the short URL string
+        $shortUrl = "{$year}&{$month}&{$day}&{$userId}&{$newId}";
+
+        // Create a new short URL record
+        $shortUrlEntry = ShortUrl::create([
+            'original_url' => $request->url,
+            'short_url' => $shortUrl,
+            'click_count' => 0, // Initialize click count to 0
+            'created_by' => $userId, // Set the created_by field
+        ]);
+
+        // Optionally, return a response or redirect
+        return redirect()->route('frontend.shortUrl.index')->with('success', 'Short URL created successfully: ' . $shortUrlEntry->short_url);
+    }
+
+
+    public function destroy_url($shortUrl) {
+        $url = shortUrl::where('id', $shortUrl)->first();
+        $url->delete();
+        return redirect()->route('frontend.shortUrl.index')->with('success', 'URL deleted successfully');
+    }
+
+    public function redirect_url($shortUrl)
+    {
+        // Attempt to find the original URL using the short URL
+        $urlEntry = ShortUrl::where('short_url', $shortUrl)->first();
+
+        if ($urlEntry) {
+            // Increment the click count
+            $urlEntry->increment('click_count');
+
+            // Redirect to the original URL
+            return redirect()->to($urlEntry->original_url);
+        }
+
+        // If no URL is found, redirect to the main site
+        return redirect()->to('https://beta.afrikonekta.com/')->with('error', 'URL not found');
     }
 }

@@ -14,14 +14,18 @@
 </style>
 
 <div class="container mt-4">
-    <div class="row mb-3">
-        <div class="col-md-8">
-            <input type="text" class="form-control" placeholder="Enter URL" id="urlInput">
+    <form id="urlForm" action="{{ route('frontend.shortUrl.store') }}" method="POST">
+        @csrf
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="Enter URL" id="urlInput" name="url" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary" id="generateBtn">Generate Name</button>
+            </div>
         </div>
-        <div class="col-md-4">
-            <button class="btn btn-primary" id="generateBtn">Generate Name</button>
-        </div>
-    </div>
+    </form>
+    
 
     <table class="table">
         <thead>
@@ -36,11 +40,17 @@
             @foreach ($urls as $key => $url)
                 <tr>
                     <td>{{ $url->original_url }}</td>
-                    <td class="short-url" data-url="short.ly/abcde">short.ly/abcde</td>
-                    <td>5</td>
-                    <td><button class="btn btn-danger deleteBtn">Delete</button></td>
+                    <td class="short-url" data-url="{{ $url->short_url }}">{{ $url->short_url }}</td>
+                    <td>{{ $url->click_count }}</td>
+                    @php
+                        $route = route('destroy.shortUrl', $url->id);
+                    @endphp
+                    <td>
+                        <a href="{{ route('destroy.shortUrl', $url->id) }}" >Delete</a>
+                    </td>
                 </tr>
             @endforeach
+        
         </tbody>
     </table>
 </div>
@@ -92,40 +102,29 @@
         });
 
         $(document).on('click', '.deleteBtn', function() {
-            const row = $(this).closest('tr');
-            const $button = $(this);
-            const shortUrl = $button.data('url');
-            
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "This will delete the URL!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `/${shortUrl}/destroy`,
-                        type: 'POST',
-                        data: {
-                            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                row.remove(); // Remove the row from the table
-                                Swal.fire('Deleted!', response.message, 'success');
-                            } else {
-                                Swal.fire('Error!', 'An error occurred: ' + response.message, 'error');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire('Error!', 'An error occurred: ' + error, 'error');
+            var shortUrl = $(this).data('url');
+            var row = $(this).closest('tr'); // Reference to the current row
+
+            if (confirm('Are you sure you want to delete this URL?')) {
+                $.ajax({
+                    url: "{{ route('destroy.shortUrl', '') }}/" + shortUrl, // Use route name
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}' // Add CSRF token for security
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            row.remove(); // Remove the row from the table
+                            alert(response.message);
+                        } else {
+                            alert(response.message);
                         }
-                    });
-                }
-            });
+                    },
+                    error: function(xhr) {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            }
         });
     })
 </script>
