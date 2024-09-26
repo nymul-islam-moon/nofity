@@ -50,21 +50,6 @@
                 </span>
             @enderror
         </div>
-
-        <div class="form-group">
-            <label for="student_id">Student ID</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text form-control" id="basic-addon1">UG</span>
-                </div>
-                <input id="student_id" type="text" class="form-control @error('student_id') is-invalid @enderror" name="student_id" value="{{ old('student_id') }}" required placeholder="xx-xx-xxx" autocomplete="student_id">
-            </div>
-            @error('student_id')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
         
 
         <div class="form-group">
@@ -92,7 +77,6 @@
                 </span>
             @enderror
         </div>
-
 
         <div class="form-group">
             <label for="password">Password</label>

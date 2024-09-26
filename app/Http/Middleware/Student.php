@@ -17,20 +17,10 @@ class Student
      */
     public function handle(Request $request, Closure $next)
     {
-        // Check if the student is authenticated
         if (Auth::guard('student')->check()) {
-            // Get the authenticated student
             $student = Auth::guard('student')->user();
-
-            // Check if email is verified and status is true
-            if ($student->email_verified_at && $student->status) {
-                return $next($request); // Proceed to the requested route
-            } else {
-                Auth::guard('student')->logout(); // Logout the student if conditions are not met
-            }
+            Auth::guard('student')->logout();
         }
-
-        // Redirect to login with error message if not authenticated or conditions not met
         return redirect()->route('frontend.student.login')->with('error', 'Please login with your varified Email and authenticate password.');
     }
 }
