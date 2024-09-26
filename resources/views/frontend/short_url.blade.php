@@ -40,7 +40,7 @@
             @foreach ($urls as $key => $url)
                 <tr>
                     <td>{{ $url->original_url }}</td>
-                    <td class="short-url" data-url="{{ $url->short_url }}">{{ $url->short_url }}</td>
+                    <td class="short-url" data-url="{{ config('app.url') . '/' . $url->short_url }}">{{ config('app.url') . '/' . $url->short_url }}</td>
                     <td>{{ $url->click_count }}</td>
                     @php
                         $route = route('destroy.shortUrl', $url->id);

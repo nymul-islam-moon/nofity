@@ -224,6 +224,6 @@ class FrontendController extends Controller
         }
 
         // If no URL is found, redirect to the main site
-        return redirect()->route('frontend.student.index')->with('error', 'URL not found');
+        return view('frontend.not_found');
     }
 }
