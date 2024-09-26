@@ -25,7 +25,7 @@ class StudentController extends Controller
         ]);
 
         // Attempt to log the user in
-        if (Auth::guard('student')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('student')->attempt(['email' => $request->email, 'password' => hash($request->password)], $request->get('remember'))) {
             // If successful, redirect to the intended location
             return redirect()->intended(route('frontend.student.index'))->with('success', 'Student Login Successful');
         }

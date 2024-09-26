@@ -146,7 +146,7 @@ class FrontendController extends Controller
         $student = Student::create($formData);
 
        
-        return redirect()->route('frontend.student.registration')->with('success', 'Student Registration successful. Please Confirm the email');
+        return redirect()->route('frontend.student.registration')->with('success', 'Student Registration successful.');
     }
 
     public function logout(Request $request)

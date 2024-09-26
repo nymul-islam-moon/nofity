@@ -21,23 +21,18 @@
             @csrf
         
             <div class="form-group">
-                <label for="student_id">Student ID</label>
+                <label for="email">Email</label>
                 <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text form-control" id="basic-addon1">UG</span>
-                    </div>
                     <input 
-                        id="student_id" 
-                        type="text" 
-                        class="form-control @error('student_id') is-invalid @enderror" 
-                        name="student_id" 
-                        value="{{ old('student_id') }}" 
+                        id="email" 
+                        type="email" 
+                        class="form-control @error('email') is-invalid @enderror" 
+                        name="email" 
                         required 
-                        placeholder="xx-xx-xx-xxx" 
-                        autocomplete="student_id"
+                        placeholder="Email"
                     >
                 </div>
-                @error('student_id')
+                @error('email')
                     <div class="invalid-feedback d-block">
                         <strong>{{ $message }}</strong>
                     </div>

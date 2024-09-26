@@ -19,7 +19,7 @@ class Student
     {
         if (Auth::guard('student')->check()) {
             $student = Auth::guard('student')->user();
-            Auth::guard('student')->logout();
+            return $next($request);
         }
         return redirect()->route('frontend.student.login')->with('error', 'Please login with your varified Email and authenticate password.');
     }

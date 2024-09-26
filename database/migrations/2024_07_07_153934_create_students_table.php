@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('profile_picture')->nullable();
-            $table->string('student_id')->unique();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->boolean('status')->default(false);
             $table->timestamp('email_verified_at')->nullable();
