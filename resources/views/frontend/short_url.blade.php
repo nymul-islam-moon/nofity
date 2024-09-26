@@ -25,7 +25,7 @@
             </div>
         </div>
     </form>
-    
+
 
     <table class="table">
         <thead>
@@ -50,7 +50,7 @@
                     </td>
                 </tr>
             @endforeach
-        
+
         </tbody>
     </table>
 </div>
@@ -88,17 +88,30 @@
 
         });
 
-        // SteadFaet
-        
-
 
         $(document).on('click', '.short-url', function() {
             const urlToCopy = $(this).data('url');
-            navigator.clipboard.writeText(urlToCopy).then(() => {
-                Swal.fire('Copied!', 'Short URL copied to clipboard.', 'success');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(urlToCopy).then(() => {
+                    Swal.fire('Copied!', 'Short URL copied to clipboard.', 'success');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            } else {
+                // Fallback method for unsupported browsers
+                const tempInput = document.createElement('input');
+                tempInput.value = urlToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    Swal.fire('Copied!', 'Short URL copied to clipboard using fallback.', 'success');
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(tempInput);
+            }
         });
 
         $(document).on('click', '.deleteBtn', function() {

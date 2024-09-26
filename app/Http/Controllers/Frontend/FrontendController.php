@@ -12,9 +12,6 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Mail;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class FrontendController extends Controller
@@ -37,7 +34,7 @@ class FrontendController extends Controller
             'phone' => 'nullable|string|max:20',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'address' => 'nullable|string|max:255',
-            'gender' => 'nullable|in:male,female,other', 
+            'gender' => 'nullable|in:male,female,other',
         ]);
 
         $student = Student::find($studentId);
@@ -145,14 +142,14 @@ class FrontendController extends Controller
 
         $student = Student::create($formData);
 
-       
-        return redirect()->route('frontend.student.registration')->with('success', 'Student Registration successful.');
+
+        return redirect()->route('frontend.student.registration')->with('success', 'Registration successful.');
     }
 
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
-        return redirect()->route('frontend.student.login')->with('success', 'Student Logout Successfully');
+        return redirect()->route('frontend.student.login')->with('success', 'Logout Successfully');
     }
 
     // SteadFast

@@ -2,9 +2,8 @@
 
 @section('frontend_content')
 <div class="registration-container">
-    <img src="{{ asset('frontend/img/images.jpeg') }}" alt="University Logo">
     <h2 class="text-center">Register</h2>
-    
+
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -50,7 +49,7 @@
                 </span>
             @enderror
         </div>
-        
+
 
         <div class="form-group">
             <label for="phone">Phone Number</label>

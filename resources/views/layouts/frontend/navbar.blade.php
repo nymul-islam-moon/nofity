@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-custom bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="/short_url">Notify</a>
+        <a class="navbar-brand" href="/short_url">Short URL</a>
         <div class="navbar-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
