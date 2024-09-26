@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-custom bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="/">Notify</a>
+        <a class="navbar-brand" href="/short_url">Notify</a>
         <div class="navbar-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.student.tags') }}"><i class="fa-solid fa-tag"></i></a>
+                    {{-- <a class="nav-link" href="{{ route('frontend.student.tags') }}"><i class="fa-solid fa-tag"></i></a> --}}
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('frontend.favorite.notification') }}"><i class="fa-solid fa-bell"></i></a>
+                    {{-- <a class="nav-link" href="{{ route('frontend.favorite.notification') }}"><i class="fa-solid fa-bell"></i></a> --}}
                 </li>
             </ul>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\StudentVerificationMail;
 use App\Models\FavoriteTags;
 use App\Models\Notification;
+use App\Models\shortUrl;
 use App\Models\Student;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -388,5 +389,15 @@ class FrontendController extends Controller
     {
         Auth::guard('student')->logout();
         return redirect()->route('frontend.student.login')->with('success', 'Student Logout Successfully');
+    }
+
+    // SteadFast
+    public function short_url() {
+        $urls = shortUrl::all();
+        return view('frontend.short_url', compact('urls'));
+    }
+
+    public function destroy_url($url) {
+
     }
 }

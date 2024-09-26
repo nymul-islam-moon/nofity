@@ -38,5 +38,9 @@ Route::prefix('/')->group(function () {
         Route::get('/profile', 'profile')->name('frontend.profile.index')->middleware('student');
         Route::post('/update/profile', 'profile_update')->name('frontend.profile.update')->middleware('student');
         Route::post('/update/password', 'password_update')->name('frontend.profile.password')->middleware('student');
+
+        // SteadFast
+        Route::get('/short_url', 'short_url')->name('frontend.shortUrl.index')->middleware('student');
+        Route::post('/{url}/destroy', 'destroy_url')->name('destroy.shortUrl');
     });
 });

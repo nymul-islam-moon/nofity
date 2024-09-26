@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TagSeeder::class,
             StudentSeeder::class,
+            ShortUrlSeeder::class
             // NotificationSeeder::class,
         ]);
     }
